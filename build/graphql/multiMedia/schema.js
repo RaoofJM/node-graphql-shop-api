@@ -12,6 +12,7 @@ const schema = `
     }
 
     type MultiMedia {
+        _id: ID,
         name: String,
         dimWidth: String,
         dimHeight: String,

@@ -9,7 +9,7 @@ exports.default = {
         name: joi_1.default.string().required(),
         label: joi_1.default.string(),
         parent: joi_1.default.string(),
-        image: joi_1.default.string(),
+        image: joi_1.default.string().required(),
     }),
 };
 //# sourceMappingURL=joi.js.map

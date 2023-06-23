@@ -9,7 +9,6 @@ const mkdirp_1 = __importDefault(require("mkdirp"));
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
 const utils_1 = require("../../helpers/utils");
-const image_size_1 = __importDefault(require("image-size"));
 // This part, works with appolo server version 3. So it might not work right now.
 const resolver = {
     Query: {
@@ -20,13 +19,6 @@ const resolver = {
                     const limit = args.limit || 10;
                     const medias = await multiMedia_1.default.findAll();
                     const paginatedMedias = (0, utils_1.paginateArray)(medias, page, limit);
-                    for (let index = 0; index < paginatedMedias.length; index++) {
-                        const media = paginatedMedias[index];
-                        (0, image_size_1.default)(path_1.default.join(__dirname, `/public/${media.dir}`), async (err, dim) => {
-                            media.dimWidth = String(dim?.width);
-                            media.dimHeight = String(dim?.height);
-                        });
-                    }
                     return paginatedMedias;
                 }
                 catch (err) {

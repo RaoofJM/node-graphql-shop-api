@@ -37,16 +37,21 @@ const server_1 = require("@apollo/server");
 const jwt_1 = require("./helpers/jwt");
 const user_1 = __importDefault(require("./database/repository/user"));
 const express4_1 = require("@apollo/server/express4");
+const express_fileupload_1 = __importDefault(require("express-fileupload"));
 const routes_1 = __importDefault(require("./routes"));
+const path_1 = __importDefault(require("path"));
+const error_1 = require("./routes/middlewares/error");
 process.on("uncaughtException", (e) => {
     logger_1.default.error(e);
 });
 const app = (0, express_1.default)();
 app.use((0, express_1.json)());
 app.use((0, cors_1.default)({ origin: envConfigs_1.corsUrl, optionsSuccessStatus: 200 }));
+app.use((0, express_fileupload_1.default)());
+app.use(express_1.default.static(path_1.default.join(__dirname, "..", "public")));
 class Application {
     constructor() {
-        // this.ServerConfig();
+        this.ServerConfig();
         this.RoutesConfig();
     }
     ServerConfig() {
@@ -80,9 +85,7 @@ class Application {
     }
     RoutesConfig() {
         app.use(routes_1.default);
-        app.listen(envConfigs_1.port, () => {
-            logger_1.default.info(`Server running on port: ${envConfigs_1.port}`);
-        });
+        app.use(error_1.errorHandler);
     }
 }
 exports.default = Application;

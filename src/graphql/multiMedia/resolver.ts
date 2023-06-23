@@ -22,17 +22,6 @@ const resolver = {
           const medias = await MultiMediaRepo.findAll();
           const paginatedMedias = paginateArray(medias, page, limit);
 
-          for (let index = 0; index < paginatedMedias.length; index++) {
-            const media = paginatedMedias[index];
-            ImageSize(
-              path.join(__dirname, `/public/${media.dir}`),
-              async (err, dim) => {
-                media.dimWidth = String(dim?.width);
-                media.dimHeight = String(dim?.height);
-              }
-            );
-          }
-
           return paginatedMedias;
         } catch (err) {
           throw createError("images wasn't loaded", 500);

@@ -2,7 +2,7 @@ import { Types } from "mongoose";
 import Category, { CategoryModel } from "../model/category";
 
 export async function findAll(): Promise<Category[]> {
-  return CategoryModel.find();
+  return CategoryModel.find().populate(["image", "parent"]);
 }
 
 export async function create(category: Category): Promise<Category> {
@@ -15,29 +15,29 @@ export async function create(category: Category): Promise<Category> {
 
 export async function update(category: Category): Promise<Category | null> {
   category.updatedAt = new Date();
-  return CategoryModel.findByIdAndUpdate(category._id, category, { new: true });
+  return CategoryModel.findByIdAndUpdate(category._id, category, { new: true }).populate(["image", "parent"]);
 }
 
 export async function remove(id: Types.ObjectId): Promise<Category | null> {
-  return CategoryModel.findByIdAndRemove(id);
+  return CategoryModel.findByIdAndRemove(id).populate(["image", "parent"]);
 }
 
 export async function findById(
   id: Types.ObjectId | string
 ): Promise<Category | null> {
-  return CategoryModel.findById(id);
+  return CategoryModel.findById(id).populate(["image", "parent"]);
 }
 
 export async function findByName(name: string): Promise<Category | null> {
-  return CategoryModel.findOne({ name });
+  return CategoryModel.findOne({ name }).populate(["image", "parent"]);
 }
 
 export async function findCategoriesWithoutParent(): Promise<Category[]> {
-  return CategoryModel.find({ parent: null });
+  return CategoryModel.find({ parent: null }).populate(["image", "parent"]);
 }
 
 export async function findCategoriesWithParent(): Promise<Category[]> {
-  return CategoryModel.find({ parent: { $ne: null } });
+  return CategoryModel.find({ parent: { $ne: null } }).populate(["image", "parent"]);
 }
 
 export default {

@@ -8,7 +8,7 @@ export default interface Category {
   name: string;
   label?: string;
   parent?: Schema.Types.ObjectId;
-  image?: Schema.Types.ObjectId;
+  image: Schema.Types.ObjectId;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -29,6 +29,7 @@ const schema = new Schema<Category>({
   },
   image: {
     type: Schema.Types.ObjectId,
+    required: true,
     ref: "MultiMedia",
   },
 });

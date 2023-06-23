@@ -48,11 +48,14 @@
     "nodemailer": "^6.9.3",
     "nodemailer-smtp-transport": "^2.4.2",
     "redis": "^4.6.7",
+    "sharp": "^0.32.1",
+    "shortid": "^2.2.16",
     "validator": "^13.9.0",
     "winston": "^3.9.0",
     "winston-daily-rotate-file": "^4.7.1"
   },
   "devDependencies": {
+    "@types/app-root-path": "^1.2.5",
     "@types/bcrypt": "^5.0.0",
     "@types/cookie-parser": "^1.4.3",
     "@types/cors": "^2.8.13",
@@ -72,6 +75,7 @@
     "@types/node": "^20.1.4",
     "@types/nodemailer": "^6.4.8",
     "@types/nodemailer-smtp-transport": "^2.7.5",
+    "@types/shortid": "^0.0.29",
     "@types/validator": "^13.7.17",
     "@types/winston": "^2.4.4",
     "colors": "^1.4.0",

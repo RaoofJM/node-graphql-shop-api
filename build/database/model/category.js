@@ -20,6 +20,7 @@ const schema = new mongoose_1.Schema({
     },
     image: {
         type: mongoose_1.Schema.Types.ObjectId,
+        required: true,
         ref: "MultiMedia",
     },
 });

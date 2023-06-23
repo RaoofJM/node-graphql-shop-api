@@ -5,6 +5,9 @@ import Logger from "../core/logger";
 import { authResolver, authTypeDefs } from "./auth";
 import { multiMediaResolver, multiMediaTypeDefs } from "./multiMedia";
 import { categoryResolver, categoryTypeDefs } from "./category";
+import { brandResolver, brandTypeDefs } from "./brand";
+import { surveyResolver, surveyTypeDefs } from "./survey";
+import { productSpecResolver, productSpecTypeDefs } from "./productSpec";
 
 process.on("uncaughtException", (e) => {
   Logger.error(e);
@@ -13,13 +16,19 @@ process.on("uncaughtException", (e) => {
 export const rootResolvers = merge(
   authResolver,
   multiMediaResolver,
-  categoryResolver
+  categoryResolver,
+  brandResolver,
+  surveyResolver,
+  productSpecResolver
 );
 
 export const rootTypeDefs = [
   authTypeDefs,
   multiMediaTypeDefs,
   categoryTypeDefs,
+  brandTypeDefs,
+  surveyTypeDefs,
+  productSpecTypeDefs,
 ];
 
 export default makeExecutableSchema({

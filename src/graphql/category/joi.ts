@@ -5,6 +5,6 @@ export default {
     name: Joi.string().required(),
     label: Joi.string(),
     parent: Joi.string(),
-    image: Joi.string(),
+    image: Joi.string().required(),
   }),
 };

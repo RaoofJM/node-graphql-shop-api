@@ -7,10 +7,12 @@ import { corsUrl, port } from "./config/envConfigs";
 import Logger from "./core/logger";
 import { ApolloServer } from "@apollo/server";
 import { verifyToken } from "./helpers/jwt";
-import User from "./database/model/user";
 import UserRepo from "./database/repository/user";
 import { expressMiddleware } from "@apollo/server/express4";
+import fileUpload from "express-fileupload";
 import router from "./routes";
+import path from "path";
+import { errorHandler } from "./routes/middlewares/error";
 
 process.on("uncaughtException", (e) => {
   Logger.error(e);
@@ -19,6 +21,8 @@ process.on("uncaughtException", (e) => {
 const app = express();
 app.use(json());
 app.use(cors({ origin: corsUrl, optionsSuccessStatus: 200 }));
+app.use(fileUpload());
+app.use(express.static(path.join(__dirname, "..", "public")));
 
 export default class Application {
   constructor() {
@@ -69,8 +73,6 @@ export default class Application {
 
   RoutesConfig() {
     app.use(router);
-    app.listen(port, () => {
-      Logger.info(`Server running on port: ${port}`);
-    });
+    app.use(errorHandler);
   }
 }

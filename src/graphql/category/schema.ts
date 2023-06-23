@@ -26,7 +26,7 @@ const schema = `
         name: String!,
         label: String,
         parent: ID,
-        image: ID
+        image: ID!
     }
 `;
 
