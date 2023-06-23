@@ -36,7 +36,8 @@ const logger_1 = __importDefault(require("./core/logger"));
 const server_1 = require("@apollo/server");
 const jwt_1 = require("./helpers/jwt");
 const user_1 = __importDefault(require("./database/repository/user"));
-const { expressMiddleware } = require("@apollo/server/express4");
+const express4_1 = require("@apollo/server/express4");
+const routes_1 = __importDefault(require("./routes"));
 process.on("uncaughtException", (e) => {
     logger_1.default.error(e);
 });
@@ -45,7 +46,8 @@ app.use((0, express_1.json)());
 app.use((0, cors_1.default)({ origin: envConfigs_1.corsUrl, optionsSuccessStatus: 200 }));
 class Application {
     constructor() {
-        this.ServerConfig();
+        // this.ServerConfig();
+        this.RoutesConfig();
     }
     ServerConfig() {
         const server = new server_1.ApolloServer({
@@ -59,7 +61,7 @@ class Application {
             },
         });
         server.start().then(() => {
-            app.use(expressMiddleware(server, {
+            app.use((0, express4_1.expressMiddleware)(server, {
                 context: async ({ req }) => {
                     const token = (await (0, jwt_1.verifyToken)(req.headers.token));
                     let user;
@@ -72,6 +74,12 @@ class Application {
                 },
             }));
         });
+        app.listen(envConfigs_1.port, () => {
+            logger_1.default.info(`Server running on port: ${envConfigs_1.port}`);
+        });
+    }
+    RoutesConfig() {
+        app.use(routes_1.default);
         app.listen(envConfigs_1.port, () => {
             logger_1.default.info(`Server running on port: ${envConfigs_1.port}`);
         });

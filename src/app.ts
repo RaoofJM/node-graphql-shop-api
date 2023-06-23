@@ -1,4 +1,4 @@
-import express, { json } from "express";
+import express, { NextFunction, Request, Response, json } from "express";
 import cors from "cors";
 import schema from "./graphql";
 import "./database"; // initialize database
@@ -9,7 +9,8 @@ import { ApolloServer } from "@apollo/server";
 import { verifyToken } from "./helpers/jwt";
 import User from "./database/model/user";
 import UserRepo from "./database/repository/user";
-const { expressMiddleware } = require("@apollo/server/express4");
+import { expressMiddleware } from "@apollo/server/express4";
+import router from "./routes";
 
 process.on("uncaughtException", (e) => {
   Logger.error(e);
@@ -22,6 +23,7 @@ app.use(cors({ origin: corsUrl, optionsSuccessStatus: 200 }));
 export default class Application {
   constructor() {
     this.ServerConfig();
+    this.RoutesConfig();
   }
 
   ServerConfig() {
@@ -60,6 +62,13 @@ export default class Application {
       );
     });
 
+    app.listen(port, () => {
+      Logger.info(`Server running on port: ${port}`);
+    });
+  }
+
+  RoutesConfig() {
+    app.use(router);
     app.listen(port, () => {
       Logger.info(`Server running on port: ${port}`);
     });
