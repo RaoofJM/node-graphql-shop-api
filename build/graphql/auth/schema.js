@@ -2,16 +2,17 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const schema = `
     type Query {
-        user : String
+        login(phone: String!, password: String!): operation!
     }
 
     type Mutation {
-        register(phone : String!, passsword : String!) : opration!
+        register(fullname: String! ,password : String!, confirmPassword : String!, email: String! ,phone : String!) : operation!
     }
 
-    type opration {
-        status : Int,
+    type operation {
+        status: Int
         message : String
+        token: String
     }
 `;
 exports.default = schema;

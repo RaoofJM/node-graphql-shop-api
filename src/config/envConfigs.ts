@@ -15,7 +15,6 @@ export const corsUrl = process.env.CORS_URL;
 export const tokenInfo = {
   jwtSecret: process.env.JWT_SECRET || "",
   accessTokenValidity: parseInt(process.env.ACCESS_TOKEN_VALIDITY_SEC || "0"),
-  refreshTokenValidity: parseInt(process.env.REFRESH_TOKEN_VALIDITY_SEC || "0"),
   issuer: process.env.TOKEN_ISSUER || "",
   audience: process.env.TOKEN_AUDIENCE || "",
 };
