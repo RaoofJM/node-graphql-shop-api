@@ -30,20 +30,16 @@ const resolver = {
       { token, levels }: { token: any; levels: string }
     ) => {
       if (token && levels.includes("admin")) {
-        if (token && levels.includes("admin")) {
-          validator(joiSchema.create, args.input);
+        validator(joiSchema.create, args.input);
 
-          const productSpec: ProductSpec = args.input;
-          const result = await ProductSpecRepo.create(productSpec);
-          if (!result) throw createError("product spec wasn't saved", 500);
+        const productSpec: ProductSpec = args.input;
+        const result = await ProductSpecRepo.create(productSpec);
+        if (!result) throw createError("product spec wasn't saved", 500);
 
-          return {
-            status: 200,
-            message: "success",
-          };
-        } else {
-          throw createError("access denied", 402);
-        }
+        return {
+          status: 200,
+          message: "success",
+        };
       } else {
         throw createError("access denied", 402);
       }

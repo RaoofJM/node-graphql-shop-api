@@ -31,20 +31,16 @@ const resolver = {
       { token, levels }: { token: any; levels: string }
     ) => {
       if (token && levels.includes("admin")) {
-        if (token && levels.includes("admin")) {
-          validator(joiSchema.create, args.input);
+        validator(joiSchema.create, args.input);
 
-          const brand: Brand = args.input;
-          const result = await BrandRepo.create(brand);
-          if (!result) throw createError("brand wasn't saved", 500);
+        const brand: Brand = args.input;
+        const result = await BrandRepo.create(brand);
+        if (!result) throw createError("brand wasn't saved", 500);
 
-          return {
-            status: 200,
-            message: "success",
-          };
-        } else {
-          throw createError("access denied", 402);
-        }
+        return {
+          status: 200,
+          message: "success",
+        };
       } else {
         throw createError("access denied", 402);
       }

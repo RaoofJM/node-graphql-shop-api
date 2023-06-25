@@ -26,20 +26,15 @@ const resolver = {
     Mutation: {
         brand: async (params, args, { token, levels }) => {
             if (token && levels.includes("admin")) {
-                if (token && levels.includes("admin")) {
-                    (0, validator_2.default)(joi_1.default.create, args.input);
-                    const brand = args.input;
-                    const result = await brand_1.default.create(brand);
-                    if (!result)
-                        throw (0, validator_1.createError)("brand wasn't saved", 500);
-                    return {
-                        status: 200,
-                        message: "success",
-                    };
-                }
-                else {
-                    throw (0, validator_1.createError)("access denied", 402);
-                }
+                (0, validator_2.default)(joi_1.default.create, args.input);
+                const brand = args.input;
+                const result = await brand_1.default.create(brand);
+                if (!result)
+                    throw (0, validator_1.createError)("brand wasn't saved", 500);
+                return {
+                    status: 200,
+                    message: "success",
+                };
             }
             else {
                 throw (0, validator_1.createError)("access denied", 402);

@@ -8,6 +8,11 @@ import { categoryResolver, categoryTypeDefs } from "./category";
 import { brandResolver, brandTypeDefs } from "./brand";
 import { surveyResolver, surveyTypeDefs } from "./survey";
 import { productSpecResolver, productSpecTypeDefs } from "./productSpec";
+import { productDetailResolver, productDetailTypeDefs } from "./productDetail";
+import { sellerResolver, sellerTypeDefs } from "./seller";
+import { warrantyResolver, warrantyTypeDefs } from "./warranty";
+import { sliderResolver, sliderTypeDefs } from "./slider";
+import { bannerResolver, bannerTypeDefs } from "./banner";
 
 process.on("uncaughtException", (e) => {
   Logger.error(e);
@@ -19,7 +24,12 @@ export const rootResolvers = merge(
   categoryResolver,
   brandResolver,
   surveyResolver,
-  productSpecResolver
+  productSpecResolver,
+  productDetailResolver,
+  sellerResolver,
+  warrantyResolver,
+  sliderResolver,
+  bannerResolver
 );
 
 export const rootTypeDefs = [
@@ -29,6 +39,11 @@ export const rootTypeDefs = [
   brandTypeDefs,
   surveyTypeDefs,
   productSpecTypeDefs,
+  productDetailTypeDefs,
+  sellerTypeDefs,
+  warrantyTypeDefs,
+  sliderTypeDefs,
+  bannerTypeDefs,
 ];
 
 export default makeExecutableSchema({
