@@ -10,8 +10,6 @@ exports.default = {
         ename: joi_1.default.string().required(),
         category: joi_1.default.string().required(),
         brand: joi_1.default.string().required(),
-        warranty: joi_1.default.string().required(),
-        seller: joi_1.default.string().required(),
         attribute: joi_1.default.array().items().required(),
         details: joi_1.default.array().items().required(),
         description: joi_1.default.string().required(),

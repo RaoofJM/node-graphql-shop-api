@@ -18,10 +18,13 @@ const seller_1 = require("./seller");
 const warranty_1 = require("./warranty");
 const slider_1 = require("./slider");
 const banner_1 = require("./banner");
+const product_1 = require("./product");
+const orderStatus_1 = require("./orderStatus");
+const comment_1 = require("./comment");
 process.on("uncaughtException", (e) => {
     logger_1.default.error(e);
 });
-exports.rootResolvers = (0, lodash_1.merge)(auth_1.authResolver, multiMedia_1.multiMediaResolver, category_1.categoryResolver, brand_1.brandResolver, survey_1.surveyResolver, productSpec_1.productSpecResolver, productDetail_1.productDetailResolver, seller_1.sellerResolver, warranty_1.warrantyResolver, slider_1.sliderResolver, banner_1.bannerResolver);
+exports.rootResolvers = (0, lodash_1.merge)(auth_1.authResolver, multiMedia_1.multiMediaResolver, category_1.categoryResolver, brand_1.brandResolver, survey_1.surveyResolver, productSpec_1.productSpecResolver, productDetail_1.productDetailResolver, seller_1.sellerResolver, warranty_1.warrantyResolver, slider_1.sliderResolver, banner_1.bannerResolver, product_1.productResolver, orderStatus_1.orderStatusResolver, comment_1.commentResolver);
 exports.rootTypeDefs = [
     auth_1.authTypeDefs,
     multiMedia_1.multiMediaTypeDefs,
@@ -34,6 +37,9 @@ exports.rootTypeDefs = [
     warranty_1.warrantyTypeDefs,
     slider_1.sliderTypeDefs,
     banner_1.bannerTypeDefs,
+    product_1.productTypeDefs,
+    orderStatus_1.orderStatusTypeDefs,
+    comment_1.commentTypeDefs,
 ];
 exports.default = (0, schema_1.makeExecutableSchema)({
     typeDefs: exports.rootTypeDefs,

@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductModel = exports.COLLECTION_NAME = exports.DOCUMENT_NAME = void 0;
 const mongoose_1 = require("mongoose");
 exports.DOCUMENT_NAME = "Product";
-exports.COLLECTION_NAME = "Products";
+exports.COLLECTION_NAME = "products";
 const schema = new mongoose_1.Schema({
     fname: {
         type: mongoose_1.Schema.Types.String,
@@ -28,14 +28,14 @@ const schema = new mongoose_1.Schema({
     details: [
         {
             type: mongoose_1.Schema.Types.ObjectId,
-            ref: "Details",
+            ref: "Detail",
             required: true,
         },
     ],
     attribute: [
         {
             type: mongoose_1.Schema.Types.ObjectId,
-            ref: "Attribute",
+            ref: "ProductAttribute",
             required: true,
         },
     ],

@@ -14,8 +14,23 @@ const multiMedia_1 = __importDefault(require("../../database/repository/multiMed
 const productAttribute_1 = __importDefault(require("../../database/repository/productAttribute"));
 const detail_1 = __importDefault(require("../../database/repository/detail"));
 const productDetail_1 = __importDefault(require("../../database/repository/productDetail"));
+const product_1 = __importDefault(require("../../database/repository/product"));
+const utils_1 = require("../../helpers/utils");
 const resolver = {
-    Query: {},
+    Query: {
+        getAllProducts: async (params, args, { token, levels }) => {
+            if (token && levels.includes("admin")) {
+                const page = args.page || 1;
+                const limit = args.limit || 10;
+                const products = await product_1.default.findAll();
+                const paginatedProducts = (0, utils_1.paginateArray)(products, page, limit);
+                return paginatedProducts;
+            }
+            else {
+                throw (0, validator_1.createError)("access denied", 402);
+            }
+        },
+    },
     Mutation: {
         product: async (params, args, { token, levels }) => {
             if (token && levels.includes("admin")) {
@@ -31,6 +46,16 @@ const resolver = {
                     throw (0, validator_1.createError)("mainImage is not valid", 401);
                 const attribute = await saveAttribute(args.input.attribute);
                 const details = await saveDetails(args.input.details);
+                if (attribute.length === 0 || details.length === 0)
+                    throw (0, validator_1.createError)("attributes or details are not valid", 401);
+                args.input.attribute = attribute;
+                args.input.details = details;
+                const product = args.input;
+                await product_1.default.create(product);
+                return {
+                    status: 200,
+                    message: "succes",
+                };
             }
             else {
                 throw (0, validator_1.createError)("access denied", 402);

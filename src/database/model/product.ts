@@ -1,7 +1,7 @@
 import { Schema, model, Types } from "mongoose";
 
 export const DOCUMENT_NAME = "Product";
-export const COLLECTION_NAME = "Products";
+export const COLLECTION_NAME = "products";
 
 export default interface Product {
   _id?: Types.ObjectId;
@@ -10,7 +10,7 @@ export default interface Product {
   description: string;
   brand: Schema.Types.ObjectId;
   details: Schema.Types.ObjectId;
-  attribute: [Schema.Types.ObjectId];
+  attribute: (Schema.Types.ObjectId | undefined)[];
   category: Schema.Types.ObjectId;
   mainImage: Schema.Types.ObjectId;
   images?: [Schema.Types.ObjectId];
@@ -42,14 +42,14 @@ const schema = new Schema<Product>({
   details: [
     {
       type: Schema.Types.ObjectId,
-      ref: "Details",
+      ref: "Detail",
       required: true,
     },
   ],
   attribute: [
     {
       type: Schema.Types.ObjectId,
-      ref: "Attribute",
+      ref: "ProductAttribute",
       required: true,
     },
   ],

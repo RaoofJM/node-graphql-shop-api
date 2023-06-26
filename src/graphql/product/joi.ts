@@ -6,8 +6,6 @@ export default {
     ename: Joi.string().required(),
     category: Joi.string().required(),
     brand: Joi.string().required(),
-    warranty: Joi.string().required(),
-    seller: Joi.string().required(),
     attribute: Joi.array().items().required(),
     details: Joi.array().items().required(),
     description: Joi.string().required(),

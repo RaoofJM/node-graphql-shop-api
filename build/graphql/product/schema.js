@@ -6,15 +6,37 @@ const schema = `
     }
 
     type Query {
-        getAllBrands(page: Int, limit: Int): [Brand]!
+        getAllProducts(page: Int, limit: Int): [Product]!
     }
 
-    type Brand {
+    type Product {
         _id: ID,
-        name: String,
-        label: String,
-        category: [Category],
-        image: MultiMedia
+        fname: String,
+        ename: String,
+        category: Category,
+        brand: Brand,
+        attribute: [Attribute],
+        details: [Detail],
+        description: String,
+        mainImage: MultiMedia,
+        images: [MultiMedia]
+    }
+
+    type Attribute {
+        _id: ID,
+        seller: Seller,
+        warranty: Warranty,
+        color: String,
+        stock: Int,
+        price: Int,
+        discount: Int
+    }
+
+    type Detail {
+        _id: ID,
+        productDetail: ProductDetail,
+        value: String,
+        label: String
     }
 
     input InputProduct {
@@ -24,7 +46,7 @@ const schema = `
         brand: ID!,
         attribute: [InputAttribute!]!,
         details: [InputDetail!]!,
-        description: string,
+        description: String,
         mainImage: ID!,
         images: [ID]!
     }

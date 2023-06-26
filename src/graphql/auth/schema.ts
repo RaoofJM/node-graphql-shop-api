@@ -12,6 +12,15 @@ const schema = `
         message : String
         token: String
     }
+
+    type User {
+        _id: ID,
+        fullname: String,
+        phone: String,
+        levels: [String],
+        password: String,
+        isEmailVerified: Boolean
+    }
 `;
 
 export default schema;

@@ -11,9 +11,29 @@ import ProductAttributeRepo from "../../database/repository/productAttribute";
 import Detail from "../../database/model/detail";
 import DetailRepo from "../../database/repository/detail";
 import ProductDetailRepo from "../../database/repository/productDetail";
+import ProductRepo from "../../database/repository/product";
+import Product from "../../database/model/product";
+import { paginateArray } from "../../helpers/utils";
 
 const resolver = {
-  Query: {},
+  Query: {
+    getAllProducts: async (
+      params: any,
+      args: any,
+      { token, levels }: { token: any; levels: string }
+    ) => {
+      if (token && levels.includes("admin")) {
+        const page = args.page || 1;
+        const limit = args.limit || 10;
+        const products = await ProductRepo.findAll();
+        const paginatedProducts = paginateArray(products, page, limit);
+
+        return paginatedProducts;
+      } else {
+        throw createError("access denied", 402);
+      }
+    },
+  },
   Mutation: {
     product: async (
       params: any,
@@ -33,6 +53,21 @@ const resolver = {
 
         const attribute = await saveAttribute(args.input.attribute);
         const details = await saveDetails(args.input.details);
+
+        if (attribute.length === 0 || details.length === 0)
+          throw createError("attributes or details are not valid", 401);
+
+        args.input.attribute = attribute;
+        args.input.details = details;
+
+        const product: Product = args.input;
+
+        await ProductRepo.create(product);
+
+        return {
+          status: 200,
+          message: "succes",
+        };
       } else {
         throw createError("access denied", 402);
       }
