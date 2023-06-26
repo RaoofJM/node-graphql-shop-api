@@ -16,6 +16,7 @@ import { bannerResolver, bannerTypeDefs } from "./banner";
 import { productResolver, productTypeDefs } from "./product";
 import { orderStatusResolver, orderStatusTypeDefs } from "./orderStatus";
 import { commentResolver, commentTypeDefs } from "./comment";
+import { favouriteResolver, favouriteTypeDefs } from "./favourite";
 
 process.on("uncaughtException", (e) => {
   Logger.error(e);
@@ -35,7 +36,8 @@ export const rootResolvers = merge(
   bannerResolver,
   productResolver,
   orderStatusResolver,
-  commentResolver
+  commentResolver,
+  favouriteResolver
 );
 
 export const rootTypeDefs = [
@@ -53,6 +55,7 @@ export const rootTypeDefs = [
   productTypeDefs,
   orderStatusTypeDefs,
   commentTypeDefs,
+  favouriteTypeDefs,
 ];
 
 export default makeExecutableSchema({

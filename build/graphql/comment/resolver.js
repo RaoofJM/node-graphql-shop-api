@@ -53,6 +53,103 @@ const resolver = {
                 throw (0, validator_1.createError)("access denied", 402);
             }
         },
+        commentManagement: async (params, args, { token, levels }) => {
+            if (token && levels.includes("admin")) {
+                if (!args.approve && !args.like && !args.dislike)
+                    throw (0, validator_1.createError)("comment id is requried", 500);
+                if (args.approve) {
+                    const comment = await comment_1.default.findById(args.approve);
+                    if (!comment)
+                        throw (0, validator_1.createError)("comment not found", 404);
+                    comment.check = !comment.check;
+                    const result = await comment_1.default.update(comment);
+                    if (!result)
+                        throw (0, validator_1.createError)("comment wasn't saved", 500);
+                    return {
+                        status: 200,
+                        message: "comment approved",
+                    };
+                }
+                else if (args.like) {
+                    const comment = await comment_1.default.findById(args.like);
+                    if (!comment)
+                        throw (0, validator_1.createError)("comment not found", 404);
+                    let hasDisliked = false;
+                    if (comment.dislike) {
+                        comment.dislike.map((item) => {
+                            if (item == token.id) {
+                                hasDisliked = true;
+                            }
+                        });
+                    }
+                    if (hasDisliked) {
+                        const index = comment.dislike.indexOf(token.id);
+                        if (index > -1)
+                            comment.dislike.splice(index, 1);
+                    }
+                    let hasLiked = false;
+                    comment.like.map((item) => {
+                        if (item == token.id) {
+                            hasLiked = true;
+                        }
+                    });
+                    if (hasLiked) {
+                        throw (0, validator_1.createError)("you already have liked this comment", 402);
+                    }
+                    else {
+                        comment.like.push(token.id);
+                    }
+                    const result = await comment_1.default.update(comment);
+                    if (!result)
+                        throw (0, validator_1.createError)("comment wasn't saved", 500);
+                    return {
+                        status: 200,
+                        message: "comment liked",
+                    };
+                }
+                else if (args.dislike) {
+                    const comment = await comment_1.default.findById(args.dislike);
+                    if (!comment)
+                        throw (0, validator_1.createError)("comment not found", 404);
+                    let hasLiked = false;
+                    if (comment.like) {
+                        comment.like.map((item) => {
+                            if (item == token.id) {
+                                hasLiked = true;
+                            }
+                        });
+                    }
+                    if (hasLiked) {
+                        const index = comment.like.indexOf(token.id);
+                        console.log(index);
+                        if (index > -1)
+                            comment.like.splice(index, 1);
+                    }
+                    let hasDisliked = false;
+                    comment.dislike.map((item) => {
+                        if (item == token.id) {
+                            hasDisliked = true;
+                        }
+                    });
+                    if (hasDisliked) {
+                        throw (0, validator_1.createError)("you already have disliked this comment", 402);
+                    }
+                    else {
+                        comment.dislike.push(token.id);
+                    }
+                    const result = await comment_1.default.update(comment);
+                    if (!result)
+                        throw (0, validator_1.createError)("comment wasn't saved", 500);
+                    return {
+                        status: 200,
+                        message: "comment disliked",
+                    };
+                }
+            }
+            else {
+                throw (0, validator_1.createError)("access denied", 402);
+            }
+        },
     },
 };
 async function saveValueSurveys(valueSurveys) {

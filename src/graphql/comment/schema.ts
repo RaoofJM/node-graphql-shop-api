@@ -1,6 +1,7 @@
 const schema = `
     type Mutation {
         comment(input: InputComment) : operation!
+        commentManagement(approve: ID, like: ID, dislike: ID) : operation!
     }
 
     type Query {

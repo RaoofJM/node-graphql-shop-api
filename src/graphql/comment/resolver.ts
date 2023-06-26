@@ -65,6 +65,107 @@ const resolver = {
         throw createError("access denied", 402);
       }
     },
+
+    commentManagement: async (
+      params: any,
+      args: any,
+      { token, levels }: { token: any; levels: string }
+    ) => {
+      if (token && levels.includes("admin")) {
+        if (!args.approve && !args.like && !args.dislike)
+          throw createError("comment id is requried", 500);
+
+        if (args.approve) {
+          const comment = await CommentRepo.findById(args.approve);
+          if (!comment) throw createError("comment not found", 404);
+
+          comment.check = !comment.check;
+          const result = await CommentRepo.update(comment);
+          if (!result) throw createError("comment wasn't saved", 500);
+          return {
+            status: 200,
+            message: "comment approved",
+          };
+        } else if (args.like) {
+          const comment = await CommentRepo.findById(args.like);
+          if (!comment) throw createError("comment not found", 404);
+
+          let hasDisliked: boolean = false;
+          if (comment.dislike) {
+            comment.dislike.map((item) => {
+              if (item == token.id) {
+                hasDisliked = true;
+              }
+            });
+          }
+
+          if (hasDisliked) {
+            const index = comment.dislike.indexOf(token.id);
+            if (index > -1) comment.dislike.splice(index, 1);
+          }
+
+          let hasLiked: boolean = false;
+          comment.like.map((item) => {
+            if (item == token.id) {
+              hasLiked = true;
+            }
+          });
+
+          if (hasLiked) {
+            throw createError("you already have liked this comment", 402);
+          } else {
+            comment.like.push(token.id);
+          }
+
+          const result = await CommentRepo.update(comment);
+          if (!result) throw createError("comment wasn't saved", 500);
+          return {
+            status: 200,
+            message: "comment liked",
+          };
+        } else if (args.dislike) {
+          const comment = await CommentRepo.findById(args.dislike);
+          if (!comment) throw createError("comment not found", 404);
+
+          let hasLiked: boolean = false;
+          if (comment.like) {
+            comment.like.map((item) => {
+              if (item == token.id) {
+                hasLiked = true;
+              }
+            });
+          }
+
+          if (hasLiked) {
+            const index = comment.like.indexOf(token.id);
+            console.log(index);
+            if (index > -1) comment.like.splice(index, 1);
+          }
+
+          let hasDisliked: boolean = false;
+          comment.dislike.map((item) => {
+            if (item == token.id) {
+              hasDisliked = true;
+            }
+          });
+
+          if (hasDisliked) {
+            throw createError("you already have disliked this comment", 402);
+          } else {
+            comment.dislike.push(token.id);
+          }
+
+          const result = await CommentRepo.update(comment);
+          if (!result) throw createError("comment wasn't saved", 500);
+          return {
+            status: 200,
+            message: "comment disliked",
+          };
+        }
+      } else {
+        throw createError("access denied", 402);
+      }
+    },
   },
 };
 

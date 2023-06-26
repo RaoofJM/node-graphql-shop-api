@@ -32,6 +32,24 @@ const schema = new mongoose_1.Schema({
         required: true,
         trim: true,
     },
+    check: {
+        type: mongoose_1.Schema.Types.Boolean,
+        default: false,
+    },
+    like: [
+        {
+            type: mongoose_1.Schema.Types.ObjectId,
+            required: true,
+            ref: "User",
+        },
+    ],
+    dislike: [
+        {
+            type: mongoose_1.Schema.Types.ObjectId,
+            required: true,
+            ref: "User",
+        },
+    ],
     negative: [
         {
             type: mongoose_1.Schema.Types.String,

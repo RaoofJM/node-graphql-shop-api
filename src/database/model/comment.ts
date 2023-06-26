@@ -12,6 +12,9 @@ export default interface Comment {
   description: string;
   negative?: [string];
   positive?: [string];
+  check?: boolean;
+  like: [Schema.Types.ObjectId];
+  dislike: [Schema.Types.ObjectId];
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -44,6 +47,24 @@ const schema = new Schema<Comment>({
     required: true,
     trim: true,
   },
+  check: {
+    type: Schema.Types.Boolean,
+    default: false,
+  },
+  like: [
+    {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
+    },
+  ],
+  dislike: [
+    {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
+    },
+  ],
   negative: [
     {
       type: Schema.Types.String,
